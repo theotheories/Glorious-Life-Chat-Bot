@@ -21,10 +21,12 @@ app = Flask(__name__)
 
 # Init client
 client = OpenAI(
-    api_key=OPENAI_API_KEY)  # should use env variable OPENAI_API_KEY in secrets (bottom left corner)
+    api_key=OPENAI_API_KEY
+)  # use env variable OPENAI_API_KEY in secrets (bottom left corner)
 
 # Create new assistant or load existing
 assistant_id = functions.create_assistant(client)
+
 
 # Start conversation thread
 @app.route('/start', methods=['GET'])
@@ -33,6 +35,7 @@ def start_conversation():
   thread = client.beta.threads.create()
   print(f"New thread created with ID: {thread.id}")  # Debugging line
   return jsonify({"thread_id": thread.id})
+
 
 # Generate response
 @app.route('/chat', methods=['POST'])
@@ -72,6 +75,7 @@ def chat():
 
   print(f"Assistant response: {response}")  # Debugging line
   return jsonify({"response": response})
+
 
 # Run server
 if __name__ == '__main__':
