@@ -1,15 +1,18 @@
 import json
 import os
 
+# Function to create assistant unless it exists - it is fed the OpenAI client object
 def create_assistant(client):
   assistant_file_path = 'assistant.json'
 
+  # assistant.json file contains secret OpenAI Assistant API code
   if os.path.exists(assistant_file_path):
     with open(assistant_file_path, 'r') as file:
       assistant_data = json.load(file)
       assistant_id = assistant_data['assistant_id']
-      print("Loaded existing assistant ID.")
+      print("Loaded existing assistant ID.") # Debugging line
   else:
+    # Hardcoded knowledge.docx to feed to the OpenAI API for tokenisation, vectorisation, embedding, semantic search etc. 
     file = client.files.create(file=open("knowledge.docx", "rb"),
                                purpose='assistants')
 
@@ -18,15 +21,17 @@ def create_assistant(client):
 Remember, your primary mission remains to educate, inspire, and engage users with the wonders of nature, adapting your communication to include both poetic expression and direct, factual content.
 You are also adept at retrieving information specifically related to the IGCSE Biology scheme of work which is a file you have been supplied. You can use this file to suggest links between interesting organisms that you describe and topics which are contained in the curriculum of the IGCSE Biology exam. 
           """,
+                                              # Retrieval engages all the processing of knowledge.docx and allows return of information from the doc in chat responses
                                               tools=[{
-                                                  "type": "retrieval"
+                                                  "type": "retrieval" 
                                               }],
                                               file_ids=[file.id],
-                                              model="gpt-4-0125-preview")
-
+                                              model="gpt-4-0125-preview") # Preview model, best available currently
+    
+    # When OpenAI API called with client.beta.assistants.create(...) returns an assistant ID, save it to the assistant.json file
     with open(assistant_file_path, 'w') as file:
       json.dump({'assistant_id': assistant.id}, file)
-      print("Created a new assistant and saved the ID.")
+      print("Created a new assistant and saved the ID.") # Debugging line
 
     assistant_id = assistant.id
 

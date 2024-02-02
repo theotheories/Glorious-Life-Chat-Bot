@@ -28,7 +28,7 @@ client = OpenAI(
 assistant_id = functions.create_assistant(client)
 
 
-# Start conversation thread
+# Start conversation thread - define GET response at /start with Flask
 @app.route('/start', methods=['GET'])
 def start_conversation():
   print("Starting a new conversation...")  # Debugging line
@@ -37,7 +37,7 @@ def start_conversation():
   return jsonify({"thread_id": thread.id})
 
 
-# Generate response
+# Generate response - define POST response at /chat with Flask
 @app.route('/chat', methods=['POST'])
 def chat():
   data = request.json
