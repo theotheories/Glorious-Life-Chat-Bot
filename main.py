@@ -22,11 +22,12 @@ app = Flask(__name__)
 # Init client
 client = OpenAI(
     api_key=OPENAI_API_KEY
-)  # use env variable OPENAI_API_KEY in secrets (bottom left corner)
+)  # use env variable OPENAI_API_KEY in secrets
 
-# Create new assistant or load existing
-assistant_id = functions.create_assistant(client)
+# # Create new assistant by calling the custom function in functions.py (not needed after first run, so adding to environment secret keys instead)
+# assistant_id = functions.create_assistant(client)
 
+assistant_id = os.environ['ASSISTANT_CODE_SECRET']
 
 # Start conversation thread - define GET response at /start with Flask
 @app.route('/start', methods=['GET'])

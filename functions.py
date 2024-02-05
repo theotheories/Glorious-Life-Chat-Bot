@@ -2,10 +2,15 @@ import json
 import os
 
 # Function to create assistant unless it exists - it is fed the OpenAI client object
-def create_assistant(client):
+# This function will be skipped in main.py in order to load the existing assistant ID. The code below has been run successfully, and does not need to be run again. 
+# Existing assistant ID will be held in secrets
+# The function depends on assistant.json existing, which is only relevant if an assistant ID is not already being loaded from the environment variables. Assistant.json has been deleted.
+
+def create_assistant(client):  
   assistant_file_path = 'assistant.json'
 
   # assistant.json file contains secret OpenAI Assistant API code
+  # Moved the code to secrets and commented out this previous code
   if os.path.exists(assistant_file_path):
     with open(assistant_file_path, 'r') as file:
       assistant_data = json.load(file)
