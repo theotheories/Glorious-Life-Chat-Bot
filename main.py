@@ -4,7 +4,9 @@ from packaging import version
 from flask import Flask, request, jsonify
 import openai
 from openai import OpenAI
-import functions
+
+# Import of my custom function is not required because it is not called in main.py as long as the assistant id exists in secret environment variables
+# import functions
 
 # Check OpenAI version is correct
 required_version = version.parse("1.1.1")
